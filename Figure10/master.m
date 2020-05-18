@@ -11,7 +11,7 @@ symbol_error_num=0;
 k9=1;
 
 % 1: MAP, 0: MLE
-weight = 1;
+weight = 0;
 
 Nstates = 4;
 
@@ -150,7 +150,7 @@ if weight==1
     ax2 = subplot(2, 2, 4);
     colormap(ax2, 'jet');
     caxis([0, 1]);
-    stateLabels = arrayfun(@(x) ['S', num2str(x)], 1:Nstates, 'UniformOutput', false);
+    stateLabels = arrayfun(@(x) ['S', num2str(x)], 0:Nstates-1, 'UniformOutput', false);
     [xgrid, ygrid] = meshgrid(1:Nstates, 1:Nstates);
     xlabels = strcat(stateLabels(xgrid(:)), '\rightarrow', stateLabels(ygrid(:)));
     heatmap(apriori_probs_matrix(:, find(pick_column)), [], 1:iterations);
@@ -172,28 +172,28 @@ hold on;
 plot(1-BEP_array./length(msg), 'LineWidth', 2);
 % title('Iteration vs. Bit Correct');
 xlabel('iteration');
-ylabel('Bit Correct (BC)');
+ylabel('Bit Correct Rate (BCR)');
 set(gca, 'TickLength', get(gca, 'TickLength')*2, 'LineWidth', 2, ...
     'FontWeight', 'bold', 'FontSize', 14);
 box on;
 axis square;
 set(gca, 'xlim', get(gca, 'xlim')+[-100, 100], 'ylim', [-0.1, 1.1]);
 legend('MAP  ', 'MLE  ');
-title('Iteration vs. Bit Correct');
+title('Iteration vs. BCR');
 
 subplot(2, 2, 2);
 hold on;
 plot(1-SEP_array, 'LineWidth', 2+(1-weight));
 % title('Iteration vs. Symbol Correct');
 xlabel('iteration');
-ylabel('Symbol Correct (SC)');
+ylabel('Symbol Correct Rate (SCR)');
 set(gca, 'TickLength', get(gca, 'TickLength')*2, 'LineWidth', 2, ...
     'FontWeight', 'bold', 'FontSize', 14);
 box on;
 axis square;
 set(gca, 'xlim', get(gca, 'xlim')+[-100, 100], 'ylim', [-0.1, 1.1]);
 legend('MAP  ', 'MLE  ');
-title('Iteration vs. Symbol Correct');
+title('Iteration vs. SCR');
 
 set(gcf, 'PaperPositionMode', 'manual', ...
     'Units', 'centimeters', 'Position', [0 0 20 35], ...
